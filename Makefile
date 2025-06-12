@@ -1,109 +1,61 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   envp.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: kabu-zee <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/07 12:48:59 by kabu-zee          #+#    #+#             */
-/*   Updated: 2025/05/07 12:49:07 by kabu-zee         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+# Only include each .c file once
+SRCS = \
+	srcs/main/main.c \
+	srcs/lexing/split.c \
+	srcs/nodes/nodes.c \
+	srcs/init/init.c \
+	srcs/clean/free.c \
+	srcs/clean/free_utils.c \
+	srcs/lexing/qoutes.c \
+	srcs/lexing/splits_utils.c \
+	srcs/expander/envp.c \
+	srcs/expander/expander.c \
+	srcs/expander/expander_utils.c \
+	srcs/excution/excution.c \
+	srcs/exit/exit.c \
+	srcs/signals/signals.c \
+	srcs/lexing/split_cmds.c \
+	srcs/built_ins/echo.c \
+	srcs/built_ins/cd.c \
+	srcs/built_ins/env.c \
+	srcs/built_ins/export.c \
+	srcs/built_ins/pwd.c \
+	srcs/built_ins/unset.c \
+	srcs/built_ins/built_in.c
 
-#include "../includes/minishell.h"
+# Convert srcs/ to objs/
+OBJS = $(SRCS:srcs/%.c=objs/%.o)
 
-void	copy_envp(char **envp, t_all *as)
-{
-	int	count;
-	int	r;
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -g
+LDFLAGS = -lreadline -lncurses -L$(LIB_PATH) -lft
+INCLUDES = -I./includes -I./libft
 
-	r = 0;
-	count = 0;
-	while (envp[count])
-		count++;
-	as->cp_envp->tmp_envp = malloc(sizeof(char *) * (count + 1));
-	if (!as->cp_envp->tmp_envp)
-		exit_program(as, "Malloc Fail", 1);
-	while (envp[r])
-	{
-		as->cp_envp->tmp_envp[r] = ft_strdup(envp[r]);
-		if (!as->cp_envp->tmp_envp[r])
-			exit_program(as, "Malloc Fail", 1);
-		r++;
-	}
-	as->cp_envp->tmp_envp[r] = NULL;
-	as->cp_envp->counter = r;
-}
+LIB_PATH = ./libft
+NAME = minishell
 
-char	*get_full_path(char *dir, char *cmd)
-{
-	char	*addslash;
-	char	*fullpath;
+all: LIB $(NAME)
 
-	addslash = ft_strjoin(dir, "/");
-	fullpath = ft_strjoin(addslash, cmd);
-	free(addslash);
-	if (access(fullpath, X_OK) == 0)
-	{
-		return (fullpath);
-	}
-	free(fullpath);
-	return (NULL);
-}
+LIB:
+	$(MAKE) -C $(LIB_PATH)
 
-char	*search_path_dirs(char *path, char *cmd)
-{
-	char	*start;
-	char	*end;
-	char	*fullpath;
+$(NAME): $(OBJS)
+	$(CC) $(OBJS) $(LDFLAGS) -o $@
 
-	start = path;
-	end = ft_strchr(start, ':');
-	while (end || *start)
-	{
-		if (end)
-			*end = '\0';
-		fullpath = get_full_path(start, cmd);
-		if (end)
-			*end = ':';
-		if (fullpath)
-			return (fullpath);
-		if (end)
-			start = end + 1;
-		else
-			break ;
-		end = ft_strchr(start, ':');
-	}
-	return (NULL);
-}
+# Make sure to create obj dirs as needed
+objs/%.o: srcs/%.c includes/minishell.h
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-char	*find_path(t_envp *cp_envp, char *cmd)
-{
-	char	*path;
+clean:
+	rm -rf $(OBJS)
+	rm -rf objs
+	$(MAKE) clean -C $(LIB_PATH)
 
-	path = ft_getenv("PATH", cp_envp);
-	if (!path)
-		return (NULL);
-	return (search_path_dirs(path, cmd));
-}
+fclean: clean
+	rm -f $(NAME)
+	$(MAKE) fclean -C $(LIB_PATH)
 
-char	*ft_getenv(const char *name, t_envp *cp_envp)
-{
-	int	i;
-	int	len;
+re: fclean all
 
-	i = 0;
-	len = ft_strlen(name);
-	if (!name || !cp_envp || !cp_envp->tmp_envp)
-		return (NULL);
-	while (cp_envp->tmp_envp[i])
-	{
-		if (cp_envp->tmp_envp[i] && ft_strncmp(cp_envp->tmp_envp[i], name,
-				len) == 0 && (cp_envp->tmp_envp[i][len]) == '=')
-		{
-			return (cp_envp->tmp_envp[i] + len + 1);
-		}
-		i++;
-	}
-	return ("");
-}
+.PHONY: all clean fclean re LIB
