@@ -23,8 +23,8 @@ int	find_closing_quote(char *input, int i, int flag, char quote_type)
 		else if (input[i] == quote_type && flag == 1)
 		{
 			flag = 0;
-			if (input[i + 1] && (input[i + 1] == ' '
-					|| is_parameter(input[i + 1])))
+			if (input[i + 1] && (input[i + 1] == ' ' || is_parameter(input[i
+						+ 1])))
 				break ;
 		}
 		else if (input[i] && input[i + 1] && flag == 0 && (input[i + 1] == ' '

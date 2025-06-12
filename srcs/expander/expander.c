@@ -22,11 +22,11 @@ int	join_after_and_replace(t_token *token, char *var_value, int end, int len)
 	{
 		after = ft_substr(token->value, end, len);
 		if (!after)
-			return (free(var_value), -1); 
+			return (free(var_value), -1);
 		tmp = var_value;
 		var_value = ft_strjoin(var_value, after);
 		if (!var_value)
-			return (free(after), free(tmp), -1); 
+			return (free(after), free(tmp), -1);
 		free(after);
 		free(tmp);
 	}
@@ -43,7 +43,7 @@ int	expand_variable(t_token *token, char *env_value, int start, int end)
 	len = ft_strlen(token->value);
 	var_value = join_before_env(token, env_value, start);
 	if (!var_value)
-		return (-1); 
+		return (-1);
 	return (join_after_and_replace(token, var_value, end, len));
 }
 

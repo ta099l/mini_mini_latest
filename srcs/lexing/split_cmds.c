@@ -1,16 +1,17 @@
 #include "../includes/minishell.h"
 
-void print_commands(t_command *cmd_list)
+void	print_commands(t_command *cmd_list)
 {
-	return ;
-	int i;
-	int cmd_num = 1;
-	t_command *cmd = cmd_list;
+	int			i;
+	int			cmd_num;
+	t_command	*cmd;
 
+	return ;
+	cmd_num = 1;
+	cmd = cmd_list;
 	while (cmd)
 	{
 		printf("=== Command %d ===\n", cmd_num);
-
 		// Print arguments
 		if (cmd->args)
 		{
@@ -22,30 +23,30 @@ void print_commands(t_command *cmd_list)
 		{
 			printf("Arguments: None\n");
 		}
-
 		// Print infile
 		if (cmd->infile)
 			printf("Infile: %s\n", cmd->infile);
 		else
 			printf("Infile: None\n");
-
 		// Print outfile
 		if (cmd->outfile)
-			printf("Outfile: %s (append: %s)\n", cmd->outfile, cmd->append ? "yes" : "no");
+			printf("Outfile: %s (append: %s)\n", cmd->outfile,
+				cmd->append ? "yes" : "no");
 		else
 			printf("Outfile: None\n");
 		if (cmd->heredoc)
 			printf("Herdoc : %d", cmd->heredoc);
-
 		printf("\n");
 		cmd = cmd->next;
 		cmd_num++;
 	}
 }
 
-t_command *new_command(t_all *as)
+t_command	*new_command(t_all *as)
 {
-	t_command *cmd = malloc(sizeof(t_command));
+	t_command	*cmd;
+
+	cmd = malloc(sizeof(t_command));
 	if (!cmd)
 		exit_program(as, "Memory allocation failed", 1);
 	cmd->args = NULL;
@@ -55,21 +56,21 @@ t_command *new_command(t_all *as)
 	cmd->next = NULL;
 	cmd->heredoc = 0;
 	cmd->executable = 1;
-	return cmd;
+	return (cmd);
 }
 
-char **add_arg(t_all *as, char **args, char *value)
+char	**add_arg(t_all *as, char **args, char *value)
 // appends a new argument string to the end of the args array (resizing as needed)
 {
-	int count; // to count amount of args
-	int i;
+	int	i;
 
+	int count; // to count amount of args
 	i = 0;
 	count = 0;
 	while (args && args[count])
 		count++;
-
-	char **new_args = malloc(sizeof(char *) * (count + 2)); // allocates one more for the new arg and NULL
+	char **new_args = malloc(sizeof(char *) * (count + 2));
+		// allocates one more for the new arg and NULL
 	if (!new_args)
 		exit_program(as, "Memory allocation failed", 1);
 	while (i < count)
@@ -80,29 +81,28 @@ char **add_arg(t_all *as, char **args, char *value)
 	}
 	new_args[count] = ft_strdup(value); // adds the new arg to the end
 	new_args[count + 1] = NULL;
-
 	if (args)
 		free(args); // reallocated, old pointer is no longer used
 	// frees the old args array but not the strings inside it
-	return new_args;
+	return (new_args);
 }
 
-void append_command(t_command **cmd_list, t_command *new_cmd)
+void	append_command(t_command **cmd_list, t_command *new_cmd)
 {
+	t_command	*tmp;
+
 	if (!*cmd_list)
 	{
 		*cmd_list = new_cmd;
-		return;
+		return ;
 	}
-
-	t_command *tmp = *cmd_list;
+	tmp = *cmd_list;
 	while (tmp->next)
 		tmp = tmp->next;
-
 	tmp->next = new_cmd; // link the new command to the end of the list
 }
 
-int split_cmds(t_all *as, t_token *token, t_command **cmd_list)
+int	split_cmds(t_all *as, t_token *token, t_command **cmd_list)
 // splits the token list into a command list
 {
 	*cmd_list = NULL; // starts with an empty command list
@@ -137,8 +137,7 @@ int split_cmds(t_all *as, t_token *token, t_command **cmd_list)
 		{
 			if (!token->next || token->next->type != WORD)
 			{
-
-				return -2;
+				return (-2);
 			}
 
 			if (ft_strncmp(token->value, ">", 1) == 0)
@@ -147,8 +146,11 @@ int split_cmds(t_all *as, t_token *token, t_command **cmd_list)
 					current_cmd->append = 1;
 				if (current_cmd->outfile)
 					free(current_cmd->outfile);
-				current_cmd->outfile = ft_strdup(token->next->value); // ask how to free??
-				int fd_out = open(current_cmd->outfile, current_cmd->append ? O_WRONLY | O_CREAT | O_APPEND : O_WRONLY | O_CREAT | O_TRUNC, 0644);
+				current_cmd->outfile = ft_strdup(token->next->value);
+					// ask how to free??
+				int fd_out = open(current_cmd->outfile,
+						current_cmd->append ? O_WRONLY | O_CREAT | O_APPEND : O_WRONLY | O_CREAT | O_TRUNC,
+						0644);
 				if (fd_out == -1)
 				{
 					perror("outfile");
@@ -189,7 +191,7 @@ int split_cmds(t_all *as, t_token *token, t_command **cmd_list)
 	}
 
 	// if (current_cmd->args)
-		append_command(cmd_list, current_cmd);
+	append_command(cmd_list, current_cmd);
 
-	return 0;
+	return (0);
 }

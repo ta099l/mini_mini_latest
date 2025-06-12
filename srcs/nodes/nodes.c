@@ -24,8 +24,8 @@ t_token	*find_last_node(t_token *token)
 
 int	add_node(t_token **token, char *input)
 {
-	t_token		*node;
-	t_token		*last_node;
+	t_token	*node;
+	t_token	*last_node;
 
 	if (!input)
 		return (-1);
