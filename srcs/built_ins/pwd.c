@@ -1,19 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pwd.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tbaniatt <tbaniatt@student.42amman.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/13 00:52:11 by tbaniatt          #+#    #+#             */
+/*   Updated: 2025/06/13 01:18:17 by tbaniatt         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
-int execute_pwd(char **args)
+int	execute_pwd(char **args)
 {
-    char *cwd;
+	char	*cwd;
 
-    (void)args; // we ignore args, since pwd doesn’t take any
-
-    cwd = getcwd(NULL, 0); // get current directory (allocates memory just enough for full path string)
-    if (!cwd)
-    {
-        perror("pwd");
-        return 1;
-    }
-
-    printf("%s\n", cwd); // print to stdout
-    free(cwd); // avoid memory leaks
-    return 0;
+	(void)args;
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+	{
+		perror("pwd");
+		return (1);
+	}
+	printf("%s\n", cwd);
+	free(cwd);
+	return (0);
 }

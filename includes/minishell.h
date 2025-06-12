@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kabu-zee <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tbaniatt <tbaniatt@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:48:57 by kabu-zee          #+#    #+#             */
-/*   Updated: 2025/06/12 17:48:59 by kabu-zee         ###   ########.fr       */
+/*   Updated: 2025/06/13 01:29:04 by tbaniatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,8 +152,11 @@ int split_input(t_all *as, char *input, t_token **token,
     int built_in(t_command *cmd_list);
     void execute_built_ins(t_command *cmd_list, t_envp *env, t_all *as);
     void exit_program(t_all *as, char *str, int n);
+    void execute_exit_utils(char **args, t_all *as, int exit_status);
+
     // echo
     int execute_echo(char **args);
+    void    execute_echo_utils(char **args, int i);
     int if_n(char *str);
     int if_nflag(char *str);
     void if_true(char **args, t_envp *env, char *equal_sign, int i);
@@ -161,6 +164,7 @@ int split_input(t_all *as, char *input, t_token **token,
 
     void update_env_var(t_envp *env, const char *key, const char *value);
     int execute_cd(char **args, t_envp *env);
+    char *execute_cd_utils(char **args, t_envp *env);
     int error_mess(char *old_pwd, char *new_pwd, char *mess);
     int execute_env(char **args, t_envp *env);
     void ft_sort_str_array(char **array);
@@ -172,6 +176,7 @@ int split_input(t_all *as, char *input, t_token **token,
     int execute_pwd(char **args);
     int is_valid_unset_key(char *key);
     void remove_env_var(t_envp *env, const char *key);
+    void remove_env_var_utils(t_envp *env, char **new_env, int j);
     int execute_unset(char **args, t_envp *env);
     char *cur_dir(t_all *as);
     char *heredoc_cmd(t_all *as, char *del, int n);
