@@ -6,7 +6,7 @@
 /*   By: tbaniatt <tbaniatt@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 00:54:40 by tbaniatt          #+#    #+#             */
-/*   Updated: 2025/06/13 01:30:18 by tbaniatt         ###   ########.fr       */
+/*   Updated: 2025/06/13 01:36:08 by tbaniatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	ft_sort_str_array(char **array)
 		i++;
 	}
 }
+
 void	print_export(char **sorted_env, int counter)
 {
 	int		i;

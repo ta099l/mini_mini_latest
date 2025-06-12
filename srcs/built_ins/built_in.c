@@ -61,8 +61,8 @@ void	execute_exit(char **args, t_all *as)
 
 void	execute_exit_utils(char **args, t_all *as, int exit_status)
 {
-        int i;
-        
+	int	i;
+
 	i = 0;
 	while (args[1][i])
 	{
