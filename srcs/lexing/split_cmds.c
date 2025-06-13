@@ -130,7 +130,7 @@ int split_cmds(t_all *as, t_token *token, t_command **cmd_list)
 			}
 			current_cmd->heredoc = 1;
 			int n = ft_strlen(token->next->value);
-			current_cmd->infile = heredoc_cmd(as, token->next->value, n);
+			current_cmd->infile = heredoc_cmd(as, token->next->value,n,token );
 			token = token->next;
 		}
 		else if (token->type == REDIR)
@@ -138,7 +138,7 @@ int split_cmds(t_all *as, t_token *token, t_command **cmd_list)
 			if (!token->next || token->next->type != WORD)
 			{
 
-				return -2;
+				return -2; //return (free_exit_status(as), 1);
 			}
 
 			if (ft_strncmp(token->value, ">", 1) == 0)
@@ -188,7 +188,7 @@ int split_cmds(t_all *as, t_token *token, t_command **cmd_list)
 		token = token->next;
 	}
 
-	// if (current_cmd->args)
+
 		append_command(cmd_list, current_cmd);
 
 	return 0;

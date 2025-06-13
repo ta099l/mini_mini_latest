@@ -61,14 +61,14 @@ void redirect_io(t_all *as, t_command *cmd, int prev_fd, int fd[2]) // return in
 		dup2(fd[1], STDOUT_FILENO);
 }
 
-char *heredoc_cmd(t_all *as, char *del, int n) // merge
+
+char *heredoc_cmd(t_all *as, char *del, int n, t_token *token) // merge
 {
 	(void)as;
 	int fd = open("/tmp/minishell_heredoc_tmp.txt", O_RDWR | O_CREAT | O_TRUNC, 0644); // open a file
 	if (fd == -1)
 	{
-
-		exit_program(as, "open heredoc", 1); // ask//do not exit
+				exit_program(as, "open heredoc", 1); // ask//do not exit
 						     // check this 1
 	}
 	while (1)
@@ -83,13 +83,36 @@ char *heredoc_cmd(t_all *as, char *del, int n) // merge
 			free(line);
 			break;
 		}
+		t_token *tmp = NULL;
+		if (token->next)
+	{
+    	if (token->next->quotes == 0)
+    	{
+			
+			tmp = token;
+			tmp->value = line;
+			
+			expand_var(as, tmp, as->cp_envp, 1);
+			
+			line = ft_strdup(tmp->value);
+			free(tmp->value);              // free expanded value
+             tmp->value = NULL;
+			//  free(tmp);
+			//  tmp =NULL;
+    	               
+		}
+		len = ft_strlen(line);
 		write(fd, line, len);
 		write(fd, "\n", 1);
 		free(line);
-	}
+		
+	
+	}}
 	close(fd);
 	return ft_strdup("/tmp/minishell_heredoc_tmp.txt");
 }
+
+
 void child_process_logic(t_all *as, t_command *cmd, t_envp *env, int prev_fd, int fd[2])
 {
 	redirect_io(as, cmd, prev_fd, fd);
@@ -123,8 +146,12 @@ void child_process_logic(t_all *as, t_command *cmd, t_envp *env, int prev_fd, in
 			exit_forkk(as, "command not found", 127); // ask
 		}
 		restore_signals();
-		free(cmd->args[0]);
-		cmd->args[0] = ft_strdup(path); // ask
+					if (ft_strncmp(cmd->args[0], "make", 4) == 0)
+		{
+			free(cmd->args[0]);
+			cmd->args[0] = ft_strdup(path); 
+
+		}
 		execve(path, cmd->args, env->tmp_envp);
 		exit_fork(as, "execv"); // ask
 		// ask
@@ -178,6 +205,8 @@ void execute_commands(t_all *as, t_command *cmd_list, t_envp *env)
 			{												     // shall i add heredoc? ask
 
 				execute_built_ins(cmd_list, env, as);
+								as->exit_status = 0;
+
 			}
 			else
 			{

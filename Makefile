@@ -10,8 +10,8 @@ SRCS = \
 	srcs/lexing/splits_utils.c \
 	srcs/expander/envp.c \
 	srcs/expander/expander.c \
-	srcs/expander/handle_expander_qoutes.c \
 	srcs/expander/expander_utils.c \
+	srcs/expander/handle_expander_qoutes.c	\
 	srcs/excution/excution.c \
 	srcs/exit/exit.c \
 	srcs/signals/signals.c \
@@ -22,7 +22,6 @@ SRCS = \
 	srcs/built_ins/export.c \
 	srcs/built_ins/pwd.c \
 	srcs/built_ins/unset.c \
-	srcs/built_ins/export_utils.c \
 	srcs/built_ins/built_in.c
 
 # Convert srcs/ to objs/
@@ -61,3 +60,4 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re LIB
+

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tasnimsamer <tasnimsamer@student.42.fr>    +#+  +:+       +#+        */
+/*   By: kabu-zee <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:14:51 by kabu-zee          #+#    #+#             */
-/*   Updated: 2025/06/13 16:02:43 by tasnimsamer      ###   ########.fr       */
+/*   Updated: 2025/06/12 17:14:57 by kabu-zee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int expand_variable(t_token *token, char *env_value, int start, int end)
 	return (join_after_and_replace(token, var_value, end, len));
 }
 
-static int handle_special_dollar(t_all *as, t_token *token, int *i)
+ int handle_special_dollar(t_all *as, t_token *token, int *i)
 {
 	char *env_value;
 	int start;
@@ -145,6 +145,9 @@ int process_token_heredoc(t_all *as, t_token *token, t_envp *cp_envp)
     }
     return (0);
 }
+
+
+
 int expand_var(t_all *as, t_token *token, t_envp *cp_envp , int heredoc_expander)
 {
 	while (token)
@@ -155,7 +158,7 @@ int expand_var(t_all *as, t_token *token, t_envp *cp_envp , int heredoc_expander
 			if (process_token_heredoc(as, token, cp_envp) == -1)
 				return (-1);
 		}
-		if (token->prev && token->prev->type == HEREDOC)// add the int for the del so we can expand inthe herdeoc cmd
+		if (token->prev && token->prev->type == HEREDOC)
 		{
 			return (0);
 		}

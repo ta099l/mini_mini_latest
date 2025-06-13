@@ -11,9 +11,18 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	sig_handler_prompt(int signum)
+t_all *get_all_instance(t_all *set)
 {
+     static t_all *saved;
+
+    if (set)
+        saved = set;
+    return saved;
+}
+void	sig_handler_prompt( int signum)
+{
+	t_all *all;
+
 	if (signum == SIGINT)
 	{
 		write(1, "\n", 1);
@@ -21,6 +30,14 @@ void	sig_handler_prompt(int signum)
 		rl_on_new_line();
 		rl_redisplay();
 	}
+	all = get_all_instance(NULL);
+        if (all)
+            all->exit_status = 130;
+	else if (signum == SIGQUIT)
+	{
+	      if (all)
+		  all->exit_status = 131;
+	}		
 }
 
 void	setup_signals(void)

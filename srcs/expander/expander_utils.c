@@ -67,7 +67,7 @@ char	*join_before_env(t_token *token, char *env_value, int start)
 		if (!before)
 		{
 			free(var_value);
-    return NULL;
+                        return NULL;
 			// return (free(var_value), NULL);
 		}
 		tmp = var_value;

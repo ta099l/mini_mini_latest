@@ -34,6 +34,7 @@ void	start_shell(t_all *as)
 	while (1)
 	{
 		path = cur_dir(as);
+		get_all_instance(as);
 		setup_signals();
 		input = readline(path);
 		free(path);

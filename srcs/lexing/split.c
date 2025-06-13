@@ -21,7 +21,7 @@ void	print_list(t_token *head)
 	i = 0;
 	while (current != NULL)
 	{
-		current = current->next;
+				current = current->next;
 		i++;
 	}
 }
@@ -51,6 +51,7 @@ int	split_input(t_all *as, char *input, t_token **token, t_tmptoken *tmp)
 		i++;
 	}
 	token_types(*token);
+	is_quoted(*token);
 	return (i);
 }
 
@@ -93,3 +94,4 @@ int	str(t_all *as, char *input, int i, t_tmptoken *tmp)
 	tmp->value = NULL;
 	return (end - 1);
 }
+
