@@ -22,6 +22,7 @@ SRCS = \
 	srcs/built_ins/export.c \
 	srcs/built_ins/pwd.c \
 	srcs/built_ins/unset.c \
+	srcs/built_ins/export_utils.c \
 	srcs/built_ins/built_in.c
 
 # Convert srcs/ to objs/
