@@ -12,6 +12,8 @@ SRCS = \
 	srcs/expander/expander.c \
 	srcs/expander/expander_utils.c \
 	srcs/expander/handle_expander_qoutes.c	\
+	srcs/excution/excution_utils.c\
+	srcs/excution/excution_utils_1.c\
 	srcs/excution/excution.c \
 	srcs/exit/exit.c \
 	srcs/signals/signals.c \

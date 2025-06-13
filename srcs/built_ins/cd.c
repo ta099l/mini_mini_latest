@@ -1,55 +1,55 @@
 #include "../includes/minishell.h"
 
-int execute_cd(char **args, t_envp *env)
+int	execute_cd(char **args, t_envp *env)
 {
-    char *tar_dir;
-    char *old_pwd;
-    char *new_pwd;
+	char	*tar_dir;
+	char	*old_pwd;
+	char	*new_pwd;
 
-    old_pwd = getcwd(NULL, 0);
-    if (!old_pwd)
-        return (error_mess(NULL, NULL, "cd: getcwd"));
-    tar_dir = execute_cd_utils(args, env);
-    if (!tar_dir || *tar_dir == '\0')
-    {
-        write(2, "cd: target not set\n", 19);
-        free(old_pwd);
-        return (1);
-    }
-    if (chdir(tar_dir) != 0)
-        return (error_mess(old_pwd, NULL, "cd"));
-    new_pwd = getcwd(NULL, 0);
-    if (!new_pwd)
-        return (error_mess(old_pwd, NULL, "cd: getcwd"));
-    add_or_update_env(env, "OLDPWD", old_pwd);
-    add_or_update_env(env, "PWD", new_pwd);
-    return (error_mess(old_pwd, new_pwd, NULL));
+	old_pwd = getcwd(NULL, 0);
+	if (!old_pwd)
+		return (error_mess(NULL, NULL, "cd: getcwd"));
+	tar_dir = execute_cd_utils(args, env);
+	if (!tar_dir || *tar_dir == '\0')
+	{
+		write(2, "cd: target not set\n", 19);
+		free(old_pwd);
+		return (1);
+	}
+	if (chdir(tar_dir) != 0)
+		return (error_mess(old_pwd, NULL, "cd"));
+	new_pwd = getcwd(NULL, 0);
+	if (!new_pwd)
+		return (error_mess(old_pwd, NULL, "cd: getcwd"));
+	add_or_update_env(env, "OLDPWD", old_pwd);
+	add_or_update_env(env, "PWD", new_pwd);
+	return (error_mess(old_pwd, new_pwd, NULL));
 }
 
-char *execute_cd_utils(char **args, t_envp *env)
+char	*execute_cd_utils(char **args, t_envp *env)
 {
-    char *tar_dir;
+	char	*tar_dir;
 
-    if (!args[0])
-        tar_dir = ft_getenv("HOME", env);
-    else if (args[0] && ft_strncmp(args[0], "-", 1) == 0)
-        tar_dir = ft_getenv("OLDPWD", env);
-    else
-        tar_dir = args[0];
-    return (tar_dir);
+	if (!args[0])
+		tar_dir = ft_getenv("HOME", env);
+	else if (args[0] && ft_strncmp(args[0], "-", 1) == 0)
+		tar_dir = ft_getenv("OLDPWD", env);
+	else
+		tar_dir = args[0];
+	return (tar_dir);
 }
 
-int error_mess(char *old_pwd, char *new_pwd, char *mess)
+int	error_mess(char *old_pwd, char *new_pwd, char *mess)
 {
-    if (mess)
-        perror(mess);
-    else
-    {
-        free(old_pwd);
-        free(new_pwd);
-        return (0);
-    }
-    if (old_pwd)
-        free(old_pwd);
-    return (1);
+	if (mess)
+		perror(mess);
+	else
+	{
+		free(old_pwd);
+		free(new_pwd);
+		return (0);
+	}
+	if (old_pwd)
+		free(old_pwd);
+	return (1);
 }

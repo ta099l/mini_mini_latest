@@ -77,6 +77,26 @@ typedef struct s_all
     int exit_status;
 } t_all;
 
+typedef struct s_exec_ctx
+{
+    t_all	*as;
+    t_envp	*env;
+    int		*prev_fd;
+    int		*fd;
+    int		*num_forked_children;
+    int		*max_children_capacity;
+    int		c;
+}	t_exec_ctx;
+
+typedef struct s_child_ctx
+{
+    t_all		*as;
+    t_command	*cmd;
+    t_envp		*env;
+    int			prev_fd;
+    int			*fd;
+}	t_child_ctx;
+
 // Tokenization & Parsing
 t_token *find_last_node(t_token *token);
 int add_node(t_token **token, char *input);
@@ -134,6 +154,7 @@ void append_command(t_command **cmd_list, t_command *new_cmd);
 int built_in(t_command *cmd_list);
 void execute_built_ins(t_command *cmd_list, t_envp *env, t_all *as);
 void execute_exit(char **args, t_all *as);
+void execute_exit_utils(char **args, t_all *as, int exit_status);
 int execute_echo(char **args);
 void execute_echo_utils(char **args, int i);
 int if_n(char *str);
@@ -171,8 +192,7 @@ char *cur_dir(t_all *as);
 char *heredoc_cmd(t_all *as, char *del, int n, t_token *token);
 int prepare_pipe_and_fork(t_all *as, int fd[2], int has_next);
 void redirect_io(t_all *as, t_command *cmd, int prev_fd, int fd[2]);
-void child_process_logic(t_all *as, t_command *cmd, t_envp *env, int prev_fd,
-                         int fd[2]);
+void	child_process_logic_ctx(t_child_ctx *ctx);
 void parent_process_cleanup(t_command *cmd, int *prev_fd, int fd[2]);
 
 // Signals
