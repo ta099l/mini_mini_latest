@@ -17,7 +17,7 @@ int     if_nflag(char *str)
 {
         int     i;
         int     flag;
-        int ret = 0;
+        int ret = 1;
         flag = 0;
         i = 0;
         if(str[i] != '-' || !str[i]) 

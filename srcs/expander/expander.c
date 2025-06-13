@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kabu-zee <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tasnimsamer <tasnimsamer@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:14:51 by kabu-zee          #+#    #+#             */
-/*   Updated: 2025/06/12 17:14:57 by kabu-zee         ###   ########.fr       */
+/*   Updated: 2025/06/13 16:02:43 by tasnimsamer      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,9 +145,6 @@ int process_token_heredoc(t_all *as, t_token *token, t_envp *cp_envp)
     }
     return (0);
 }
-
-
-
 int expand_var(t_all *as, t_token *token, t_envp *cp_envp , int heredoc_expander)
 {
 	while (token)

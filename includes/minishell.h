@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kabu-zee <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tasnimsamer <tasnimsamer@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:48:57 by kabu-zee          #+#    #+#             */
-/*   Updated: 2025/06/12 17:48:59 by kabu-zee         ###   ########.fr       */
+/*   Updated: 2025/06/13 16:14:03 by tasnimsamer      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct s_tmptoken
 typedef struct s_token
 {
     char *value;
-    char qouts;
+    char quotes;
     t_types type;
     struct s_token *prev;
     struct s_token *next;
@@ -123,7 +123,6 @@ int split_input(t_all *as, char *input, t_token **token,
         // env
         void copy_envp(char **envp, t_all *as);
     void print_envp(t_envp *cp_envp);
-    int expand_var(t_all *as, t_token *token, t_envp *cp_envp);
     int process_token(t_all *as, t_token *token, t_envp *cp_envp);
     int process_dollar(t_all *as, t_token *token, int *i, t_envp *cp_envp);
     char *ft_getenv(const char *name, t_envp *cp_envp);
@@ -176,7 +175,8 @@ int split_input(t_all *as, char *input, t_token **token,
     char *cur_dir(t_all *as);
     char *heredoc_cmd(t_all *as, char *del, int n);
     void execute_commands(t_all *as, t_command *cmd_list, t_envp *env);
-    int expand_var(t_all *as, t_token *token, t_envp *cp_envp);
+    int expand_var(t_all *as, t_token *token, t_envp *cp_envp, int heredoc_expander);
+    
 
     void exit_fork(t_all *as, char *str);
     void exit_forkk(t_all *as, char *str, int n);
@@ -185,4 +185,6 @@ int split_input(t_all *as, char *input, t_token **token,
     void setup_environment(int argc, char **argv, char **envp, t_all **as);
     void free_files(t_command *cmd);
     void	free_exit_status(t_all *as);
+
+    
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   splits_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kabu-zee <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tasnimsamer <tasnimsamer@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:55:40 by kabu-zee          #+#    #+#             */
-/*   Updated: 2025/06/12 17:55:42 by kabu-zee         ###   ########.fr       */
+/*   Updated: 2025/06/13 16:03:59 by tasnimsamer      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	toknize(char *input, t_all *as) // change to void
 		return (free_exit_status(as), 1);
 	}
 
-	expand_var(as, as->token, as->cp_envp);
+	expand_var(as, as->token, as->cp_envp, 0);
 	// if(i == -1)
 	// 	exit(1);
 	// 	// return(free_exit_status(as),1);
