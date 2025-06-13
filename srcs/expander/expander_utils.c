@@ -12,26 +12,6 @@
 
 #include "../includes/minishell.h"
 
-int	handle_single_quotes(const char *value, int *i, int in_double)
-{
-	if (value[*i] == '\'' && in_double == 0)
-	{
-		(*i)++;
-		while (value[*i] && value[*i] != '\'')
-			(*i)++;
-		(*i)++;
-		return (1);
-	}
-	return (0);
-}
-
-int	toggle_double_quote(int ch, int in_double)
-{
-	if (ch == '"')
-		return (!in_double);
-	return (in_double);
-}
-
 int	handle_exit_status(t_all *as, t_token *token)
 {
 	char	*status_str;
@@ -52,6 +32,14 @@ int	extract_variable(t_all *as, char *value, int *i, char **var)
 	int	end;
 
 	start = *i;
+	if (isdigit(value[*i]))
+	{
+		(*i)++;
+		*var = ft_strdup("");
+		if (!*var)
+			exit_program(as, "Memory allocation failed", 1);
+		return (start);
+	}
 	while (value[*i] && (isalnum(value[*i]) || value[*i] == '_'))
 		(*i)++;
 	end = *i;
@@ -78,12 +66,19 @@ char	*join_before_env(t_token *token, char *env_value, int start)
 		before = ft_substr(token->value, 0, start - 1);
 		if (!before)
 		{
-			return (free(var_value), NULL);
+			free(var_value);
+    return NULL;
+			// return (free(var_value), NULL);
 		}
 		tmp = var_value;
 		var_value = ft_strjoin(before, var_value);
 		if (!var_value)
-			return (free(before), free(tmp), NULL);
+		{
+			free(before);
+			free(tmp);
+			return NULL;
+		}
+			// return (free(before), free(tmp), NULL);
 		free(before);
 		free(tmp);
 	}
