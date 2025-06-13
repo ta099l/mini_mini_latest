@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbaniatt <tbaniatt@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: tasnimsamer <tasnimsamer@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 00:52:01 by tbaniatt          #+#    #+#             */
-/*   Updated: 2025/06/13 01:17:19 by tbaniatt         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:46:17 by tasnimsamer      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	if_nflag(char *str)
 	int	flag;
 	int	ret;
 
-	ret = 0;
+	ret = 1;
 	flag = 0;
 	i = 0;
 	if (str[i] != '-' || !str[i])
