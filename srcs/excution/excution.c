@@ -14,16 +14,16 @@ static void	handle_input_redirection(t_all *as, t_command *cmd, int prev_fd,
 		{
 			close(fd[0]);
 			close(fd[1]);
-			exit_fork(as, "infile");
+			exit_fork(as, "infile", 1);
 		}
 		dup2(fd_in, STDIN_FILENO);
 		close(fd_in);
 	}
 	if (cmd->heredoc)
 	{
-		fd_heredoc = open("/tmp/minishell_heredoc_tmp.txt", O_RDONLY);
+		fd_heredoc = open(cmd->infile, O_RDONLY);
 		if (fd_heredoc == -1)
-			exit_fork(as, "open heredoc2");
+			exit_fork(as, "open heredoc2", 1);
 		dup2(fd_heredoc, STDIN_FILENO);
 		close(fd_heredoc);
 	}
@@ -45,7 +45,7 @@ static void	handle_output_redirection(t_all *as, t_command *cmd, int fd[2])
 			open_flags = O_WRONLY | O_CREAT | O_TRUNC;
 		fd_out = open(cmd->outfile, open_flags, 0644);
 		if (fd_out == -1)
-			exit_fork(as, "outfile");
+			exit_fork(as, "outfile", 1);
 		dup2(fd_out, STDOUT_FILENO);
 		close(fd_out);
 	}
@@ -59,66 +59,5 @@ void	redirect_io(t_all *as, t_command *cmd, int prev_fd, int fd[2])
 	handle_output_redirection(as, cmd, fd);
 }
 
-// Helper: Write a line to heredoc file, expanding if needed
-static void	write_heredoc_line(t_all *as, t_token *token, char *line, int fd)
-{
-	int		len;
-	t_token	tmp;
 
-	tmp = (t_token){0};
-	if (token->next && token->next->quotes == 0)
-	{
-		tmp.value = line;
-		expand_var(as, &tmp, as->cp_envp, 1);
-		line = tmp.value;
-	}
-	len = ft_strlen(line);
-	write(fd, line, len);
-	write(fd, "\n", 1);
-	free(line);
-}
-// #include <linux/limits.h>
 
-// char *get_rand()
-// {
-// 	char	name[PATH_MAX];
-// 	int		r;
-// 	char	*r_str;
-
-// 	r = rand();
-// 	r_str = ft_itoa(r);
-// 	if (!r_str)
-// 		return (NULL);
-// 	snprintf(name, PATH_MAX, "/tmp/minishell_%s", r_str);
-// 	free(r_str);
-// 	return (ft_strdup(name));
-// }
-
-// Main heredoc function, now much shorter
-char	*heredoc_cmd(t_all *as, char *del, int n, t_token *token)
-{
-	int		fd;
-	char	*line;
-	char	*name;
-
-	name = "v";
-	if (!name)
-		exit_program(as, "open heredoc", 1);
-	fd = open(name, O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-		exit_program(as, "open heredoc", 1);
-	while (1)
-	{
-		line = readline("> ");
-		if (!line)
-			break ;
-		if (ft_strlen(line) == (size_t)n && ft_strncmp(line, del, n) == 0)
-		{
-			free(line);
-			break ;
-		}
-		write_heredoc_line(as, token, line, fd);
-	}
-	close(fd);
-	return (name);
-}

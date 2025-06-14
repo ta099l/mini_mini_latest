@@ -60,3 +60,5 @@ void	execute_commands(t_all *as, t_command *cmd_list, t_envp *env)
 	loop_commands(cmd_list, &ctx);
 	wait_for_children(as, num_forked_children);
 }
+
+

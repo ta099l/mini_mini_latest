@@ -15,6 +15,7 @@ SRCS = \
 	srcs/excution/excution_utils.c\
 	srcs/excution/excution_utils_1.c\
 	srcs/excution/excution_utils_2.c\
+	srcs/excution/excution_utils_3.c\
 	srcs/excution/excution.c \
 	srcs/exit/exit.c \
 	srcs/signals/signals.c \

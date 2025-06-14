@@ -216,8 +216,7 @@ void					free_exit_status(t_all *as);
 // Execution Helpers
 char					**add_arg(t_all *as, char **args, char *value);
 char					*cur_dir(t_all *as);
-char					*heredoc_cmd(t_all *as, char *del, int n,
-							t_token *token);
+char                                    *heredoc_cmd(t_all *as, char *del, t_token *token);
 int						prepare_pipe_and_fork(t_all *as, int fd[2],
 							int has_next);
 void					redirect_io(t_all *as, t_command *cmd, int prev_fd,
@@ -225,6 +224,7 @@ void					redirect_io(t_all *as, t_command *cmd, int prev_fd,
 void					child_process_logic_ctx(t_child_ctx *ctx);
 void					parent_process_cleanup(t_command *cmd, int *prev_fd,
 							int fd[2]);
+char	                                *get_rand(void);					
 
 // Signals
 void					sig_handler_prompt(int signum);
@@ -234,8 +234,7 @@ void					ignore_signals(void);
 
 // Exit
 void					exit_program(t_all *as, char *str, int n);
-void					exit_fork(t_all *as, char *str);
-void					exit_forkk(t_all *as, char *str, int n);
+void					exit_fork(t_all *as, char *str, int n);
 
 // Shell entry
 void					start_shell(t_all *as);

@@ -8,11 +8,10 @@ int	toknize(char *input, t_all *as)
 	if (i == -1)
 		return (free_exit_status(as), 1);
 	i = expand_var(as, as->token, as->cp_envp, 0);
-	if (i == -1)
-		clean(as);
+	if(i == -1)
+		exit_program(as, "malloc failed", 1);
 	remove_quotes(as->token);
-	print_list(as->token);
-	i = split_cmds(as, as->token, &as->cmd);
+	split_cmds(as, as->token, &as->cmd);
 	execute_commands(as, as->cmd, as->cp_envp);
 	return (0);
 }

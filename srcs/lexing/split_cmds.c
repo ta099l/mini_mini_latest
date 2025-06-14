@@ -160,13 +160,12 @@ static int	handle_word_token(t_all *as, t_command *current_cmd, t_token *token)
 static int	handle_heredoc_token(t_all *as, t_command *current_cmd,
 		t_token **token)
 {
-	int	n;
-
 	if (!(*token)->next || (*token)->next->type != WORD)
 		exit_program(as, "Memory allocation failed", 1);
 	current_cmd->heredoc = 1;
-	n = ft_strlen((*token)->next->value);
-	current_cmd->infile = heredoc_cmd(as, (*token)->next->value, n, *token);
+	if(current_cmd->infile )
+	  free(current_cmd->infile );
+	current_cmd->infile = heredoc_cmd(as, (*token)->next->value, *token);
 	*token = (*token)->next;
 	return (0);
 }

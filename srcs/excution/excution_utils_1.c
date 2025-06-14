@@ -6,13 +6,13 @@ static void	exec_command(t_all *as, t_command *cmd, t_envp *env)
 	char	*path;
 
 	if (!cmd->args)
-		exit_forkk(as, NULL, 0);
+		exit_fork(as, NULL, 0);
 	if (ft_strchr(cmd->args[0], '/'))
 		path = cmd->args[0];
 	else
 		path = find_path(env, cmd->args[0]);
 	if (!path)
-		exit_forkk(as, "command not found", 127);
+		exit_fork(as, "command not found", 127);
 	restore_signals();
 	if (ft_strncmp(cmd->args[0], "make", 4) == 0)
 	{
@@ -20,7 +20,7 @@ static void	exec_command(t_all *as, t_command *cmd, t_envp *env)
 		cmd->args[0] = ft_strdup(path);
 	}
 	execve(path, cmd->args, env->tmp_envp);
-	exit_fork(as, "execve");
+	exit_fork(as, "execve", 1);
 }
 
 void	child_process_logic_ctx(t_child_ctx *ctx)
@@ -36,7 +36,7 @@ void	child_process_logic_ctx(t_child_ctx *ctx)
 	if (built_in(ctx->cmd))
 	{
 		execute_built_ins(ctx->cmd, ctx->env, ctx->as);
-		exit_forkk(ctx->as, NULL, 0);
+		exit_fork(ctx->as, NULL, 0);
 	}
 	else
 		exec_command(ctx->as, ctx->cmd, ctx->env);
@@ -61,14 +61,14 @@ int	prepare_pipe_and_fork(t_all *as, int fd[2], int has_next)
 
 	if (has_next && pipe(fd) == -1)
 	{
-		exit_fork(as, "pipe");
+		exit_fork(as, "pipe", 1);
 	}
 	pid = fork();
 	if (pid == -1)
 	{
 		close(fd[0]);
 		close(fd[1]);
-		exit_fork(as, "fork");
+		exit_fork(as, "fork", 1);
 	}
 	return (pid);
 }
