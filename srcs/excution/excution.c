@@ -1,7 +1,8 @@
 #include "../includes/minishell.h"
 
 // Helper for input redirection
-static void	handle_input_redirection(t_all *as, t_command *cmd, int prev_fd, int fd[2])
+static void	handle_input_redirection(t_all *as, t_command *cmd, int prev_fd,
+		int fd[2])
 {
 	int	fd_heredoc;
 	int	fd_in;
@@ -98,17 +99,14 @@ char	*heredoc_cmd(t_all *as, char *del, int n, t_token *token)
 {
 	int		fd;
 	char	*line;
-	char *name; //do random 16 letter
-	// name = get_rand();
-	name ="v";
-	if(!name)
+	char	*name;
+
+	name = "v";
+	if (!name)
 		exit_program(as, "open heredoc", 1);
-	fd = open(name, O_RDWR | O_CREAT | O_TRUNC,
-			0644);
+	fd = open(name, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
-	{	free(name);
 		exit_program(as, "open heredoc", 1);
-	}
 	while (1)
 	{
 		line = readline("> ");

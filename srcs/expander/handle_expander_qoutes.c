@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_expander_qoutes.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tabuayya <tabuayya@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tbaniatt <tbaniatt@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:15:12 by kabu-zee          #+#    #+#             */
-/*   Updated: 2025/06/14 18:10:59 by tabuayya         ###   ########.fr       */
+/*   Updated: 2025/06/14 20:57:56 by tbaniatt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,44 +32,38 @@ int	toggle_double_quote(int ch, int in_double)
 	return (in_double);
 }
 
-int is_quoted(t_token *token)
+int	is_quoted(t_token *token)
 {
 	while (token)
 	{
 		token->quotes = 0;
 		if (token->value && token->type == WORD)
 		{
-			
 			if (ft_strchr(token->value, '\'') || ft_strchr(token->value, '"'))
 			{
 				token->quotes = 1;
-				
 			}
 		}
 		token = token->next;
 	}
-
-	return 0;
+	return (0);
 }
 
-int process_token_heredoc(t_all *as, t_token *token, t_envp *cp_envp)
+int	process_token_heredoc(t_all *as, t_token *token, t_envp *cp_envp)
 {
-	int i = 0;
-   
+	int	i;
 
-    while (token->value[i])
-    {
-       
-        if (token->value[i] == '$')
-        {
-            // Expand variable regardless of quoting
-            if (process_dollar(as, token, &i, cp_envp) == -1)
-                return (-1);
-            i = 0;  // Reset index because string changed
-         
-            continue;
-        }
-        i++;
-    }
-    return (0);
+	i = 0;
+	while (token->value[i])
+	{
+		if (token->value[i] == '$')
+		{
+			if (process_dollar(as, token, &i, cp_envp) == -1)
+				return (-1);
+			i = 0;
+			continue ;
+		}
+		i++;
+	}
+	return (0);
 }

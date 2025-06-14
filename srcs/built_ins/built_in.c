@@ -70,7 +70,7 @@ void	execute_exit_utils(char **args, t_all *as, int exit_status)
 void	execute_built_ins(t_command *cmd_list, t_envp *env, t_all *as)
 {
 	t_command	*cmd;
-	int	status;
+	int			status;
 
 	status = 0;
 	cmd = cmd_list;
@@ -86,7 +86,7 @@ void	execute_built_ins(t_command *cmd_list, t_envp *env, t_all *as)
 			execute_export(cmd->args, env, &status);
 		else if (ft_strncmp(cmd->args[0], "unset", 5) == 0)
 			execute_unset(cmd->args, env);
-		else if (ft_strncmp(cmd->args[0], "env", 3) == 0) 
+		else if (ft_strncmp(cmd->args[0], "env", 3) == 0)
 			execute_env(cmd->args, env);
 		else if (ft_strncmp(cmd->args[0], "exit", 4) == 0)
 			execute_exit(cmd->args, as, &status);

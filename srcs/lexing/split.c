@@ -21,7 +21,7 @@ void	print_list(t_token *head)
 	i = 0;
 	while (current != NULL)
 	{
-				current = current->next;
+		current = current->next;
 		i++;
 	}
 }
@@ -94,4 +94,3 @@ int	str(t_all *as, char *input, int i, t_tmptoken *tmp)
 	tmp->value = NULL;
 	return (end - 1);
 }
-

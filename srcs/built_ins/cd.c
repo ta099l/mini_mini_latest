@@ -1,10 +1,24 @@
 #include "../includes/minishell.h"
 
+static int	update_pwd(char *old_pwd, t_envp *env, int *status)
+{
+	char	*new_pwd;
+
+	new_pwd = getcwd(NULL, 0);
+	if (!new_pwd)
+	{
+		*status = 1;
+		return (error_mess(old_pwd, NULL, "cd: getcwd"));
+	}
+	add_or_update_env(env, "OLDPWD", old_pwd);
+	add_or_update_env(env, "PWD", new_pwd);
+	return (error_mess(old_pwd, new_pwd, NULL));
+}
+
 int	execute_cd(char **args, t_envp *env, int *status)
 {
 	char	*tar_dir;
 	char	*old_pwd;
-	char	*new_pwd;
 
 	old_pwd = getcwd(NULL, 0);
 	if (!old_pwd)
@@ -24,15 +38,7 @@ int	execute_cd(char **args, t_envp *env, int *status)
 		*status = 1;
 		return (error_mess(old_pwd, NULL, "cd"));
 	}
-	new_pwd = getcwd(NULL, 0);
-	if (!new_pwd)
-	{
-		*status = 1;
-		return (error_mess(old_pwd, NULL, "cd: getcwd"));
-	}
-	add_or_update_env(env, "OLDPWD", old_pwd);
-	add_or_update_env(env, "PWD", new_pwd);
-	return (error_mess(old_pwd, new_pwd, NULL));
+	return (update_pwd(old_pwd, env, status));
 }
 
 char	*execute_cd_utils(char **args, t_envp *env)
