@@ -41,7 +41,7 @@ static void	wait_for_children(t_all *as, int num_children)
 static void	handle_builtin_parent(t_command *cmd_list, t_exec_ctx *ctx)
 {
 	execute_built_ins(cmd_list, ctx->env, ctx->as);
-	ctx->as->exit_status = 0;
+	// ctx->as->exit_status = 0;
 }
 
 static void	handle_fork_and_exec_utils(t_child_ctx *child_ctx,

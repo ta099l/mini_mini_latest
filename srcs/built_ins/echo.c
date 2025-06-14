@@ -54,11 +54,11 @@ int	execute_echo(char **args)
 		ft_putchar_fd('\n', 1);
 		return (0);
 	}
-	while (args[i][0] == '-')
+	while (args[i] && args[i][0] == '-')
 	{
 		if (if_nflag(args[i]))
 			if_newline = 0;
-		else if (!if_n(args[i]))
+		else
 			break ;
 		i++;
 	}

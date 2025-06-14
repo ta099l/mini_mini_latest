@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: falhaimo <falhaimo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tabuayya <tabuayya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 17:54:43 by kabu-zee          #+#    #+#             */
-/*   Updated: 2025/06/10 16:02:39 by falhaimo         ###   ########.fr       */
+/*   Updated: 2025/06/14 13:13:51 by tabuayya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 #include <readline/readline.h>
 #include <stdlib.h>
 #include <unistd.h>
+
+int	is_blank(const char *str)
+{
+	return (str[0] == '\0');
+}
 
 void	setup_environment(int argc, char **argv, char **envp, t_all **as)
 {
@@ -44,7 +49,8 @@ void	start_shell(t_all *as)
 			break ;
 		}
 		ignore_signals();
-		add_history(input);
+		if (!is_blank(input))
+			add_history(input);
 		toknize(input, as);
 		free(input);
 		free_token_cmd(as);

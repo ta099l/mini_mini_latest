@@ -20,7 +20,7 @@ static void	exec_command(t_all *as, t_command *cmd, t_envp *env)
 		cmd->args[0] = ft_strdup(path);
 	}
 	execve(path, cmd->args, env->tmp_envp);
-	exit_fork(as, "execv");
+	exit_fork(as, "execve");
 }
 
 void	child_process_logic_ctx(t_child_ctx *ctx)

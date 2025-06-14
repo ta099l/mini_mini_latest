@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_expander_quotes.c                           :+:      :+:    :+:   */
+/*   handle_expander_qoutes.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kabu-zee <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tabuayya <tabuayya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:15:12 by kabu-zee          #+#    #+#             */
-/*   Updated: 2025/06/12 19:03:51 by kabu-zee         ###   ########.fr       */
+/*   Updated: 2025/06/14 13:18:25 by tabuayya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,26 @@ int is_quoted(t_token *token)
 	}
 
 	return 0;
+}
+
+int process_token_heredoc(t_all *as, t_token *token, t_envp *cp_envp)
+{
+	int i = 0;
+   
+
+    while (token->value[i])
+    {
+       
+        if (token->value[i] == '$')
+        {
+            // Expand variable regardless of quoting
+            if (process_dollar(as, token, &i, cp_envp) == -1)
+                return (-1);
+            i = 0;  // Reset index because string changed
+         
+            continue;
+        }
+        i++;
+    }
+    return (0);
 }

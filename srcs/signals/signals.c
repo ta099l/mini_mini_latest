@@ -11,17 +11,19 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-t_all *get_all_instance(t_all *set)
-{
-     static t_all *saved;
 
-    if (set)
-        saved = set;
-    return saved;
-}
-void	sig_handler_prompt( int signum)
+t_all	*get_all_instance(t_all *set)
 {
-	t_all *all;
+	static t_all	*saved;
+
+	if (set)
+		saved = set;
+	return (saved);
+}
+
+void	sig_handler_prompt(int signum)
+{
+	t_all	*all;
 
 	if (signum == SIGINT)
 	{
@@ -31,13 +33,13 @@ void	sig_handler_prompt( int signum)
 		rl_redisplay();
 	}
 	all = get_all_instance(NULL);
-        if (all)
-            all->exit_status = 130;
+	if (all)
+		all->exit_status = 130;
 	else if (signum == SIGQUIT)
 	{
-	      if (all)
-		  all->exit_status = 131;
-	}		
+		if (all)
+			all->exit_status = 131;
+	}
 }
 
 void	setup_signals(void)

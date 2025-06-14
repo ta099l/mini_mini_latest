@@ -3,37 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kabu-zee <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tabuayya <tabuayya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:14:51 by kabu-zee          #+#    #+#             */
-/*   Updated: 2025/06/12 17:14:57 by kabu-zee         ###   ########.fr       */
+/*   Updated: 2025/06/14 14:24:24 by tabuayya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int join_after_and_replace(t_token *token, char *var_value, int end, int len)
-{
-	char *after;
-	char *tmp;
 
-	after = NULL;
-	if (end < len)
-	{
-		after = ft_substr(token->value, end, len);
-		if (!after)
-			return (free(var_value), -1);
-		tmp = var_value;
-		var_value = ft_strjoin(var_value, after);
-		if (!var_value)
-			return (free(after), free(tmp), -1);
-		free(after);
-		free(tmp);
-	}
-	free(token->value);
-	token->value = var_value;
-	return (0);
-}
 
 int expand_variable(t_token *token, char *env_value, int start, int end)
 {
@@ -123,29 +102,6 @@ int process_token(t_all *as, t_token *token, t_envp *cp_envp)
 	}
 	return (0);
 }
-
-int process_token_heredoc(t_all *as, t_token *token, t_envp *cp_envp)
-{
-	int i = 0;
-   
-
-    while (token->value[i])
-    {
-       
-        if (token->value[i] == '$')
-        {
-            // Expand variable regardless of quoting
-            if (process_dollar(as, token, &i, cp_envp) == -1)
-                return (-1);
-            i = 0;  // Reset index because string changed
-         
-            continue;
-        }
-        i++;
-    }
-    return (0);
-}
-
 
 
 int expand_var(t_all *as, t_token *token, t_envp *cp_envp , int heredoc_expander)

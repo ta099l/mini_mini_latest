@@ -1,7 +1,7 @@
 #include "../includes/minishell.h"
 
 // Helper for input redirection
-static void	handle_input_redirection(t_all *as, t_command *cmd, int prev_fd)
+static void	handle_input_redirection(t_all *as, t_command *cmd, int prev_fd, int fd[2])
 {
 	int	fd_heredoc;
 	int	fd_in;
@@ -18,7 +18,11 @@ static void	handle_input_redirection(t_all *as, t_command *cmd, int prev_fd)
 	{
 		fd_in = open(cmd->infile, O_RDONLY);
 		if (fd_in == -1)
+		{
+			close(fd[0]);
+			close(fd[1]);
 			exit_fork(as, "infile");
+		}
 		dup2(fd_in, STDIN_FILENO);
 		close(fd_in);
 	}
@@ -50,7 +54,7 @@ static void	handle_output_redirection(t_all *as, t_command *cmd, int fd[2])
 
 void	redirect_io(t_all *as, t_command *cmd, int prev_fd, int fd[2])
 {
-	handle_input_redirection(as, cmd, prev_fd);
+	handle_input_redirection(as, cmd, prev_fd, fd);
 	handle_output_redirection(as, cmd, fd);
 }
 

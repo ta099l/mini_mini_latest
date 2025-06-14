@@ -66,7 +66,10 @@ void	if_true(char **args, t_envp *env, char *equal_sign, int i)
 	key = ft_substr(args[i], 0, key_len);
 	value = ft_strdup(equal_sign + 1);
 	if (!is_valid_key(key))
+	{
+		env->export_falg = 1;
 		printf("export: `%s`: not a valid identifier\n", key);
+	}
 	else
 		add_or_update_env(env, key, value);
 	free(key);
@@ -76,7 +79,10 @@ void	if_true(char **args, t_envp *env, char *equal_sign, int i)
 void	if_not(char **args, t_envp *env, int i)
 {
 	if (!is_valid_key(args[i]))
+	{
+		env->export_falg = 1;
 		printf("export: `%s`: not a valid identifier\n", args[i]);
+	}
 	else
 		add_or_update_env(env, args[i], "");
 }

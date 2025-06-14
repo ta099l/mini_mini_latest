@@ -22,14 +22,10 @@ void print_commands(t_command *cmd_list)
 		{
 			printf("Arguments: None\n");
 		}
-
-		// Print infile
 		if (cmd->infile)
 			printf("Infile: %s\n", cmd->infile);
 		else
 			printf("Infile: None\n");
-
-		// Print outfile
 		if (cmd->outfile)
 			printf("Outfile: %s (append: %s)\n", cmd->outfile, cmd->append ? "yes" : "no");
 		else
@@ -138,7 +134,8 @@ int split_cmds(t_all *as, t_token *token, t_command **cmd_list)
 			if (!token->next || token->next->type != WORD)
 			{
 
-				return -2; //return (free_exit_status(as), 1);
+				return (free_exit_status(as), 1);
+				//return -2; 
 			}
 
 			if (ft_strncmp(token->value, ">", 1) == 0)
@@ -148,15 +145,15 @@ int split_cmds(t_all *as, t_token *token, t_command **cmd_list)
 				if (current_cmd->outfile)
 					free(current_cmd->outfile);
 				current_cmd->outfile = ft_strdup(token->next->value); // ask how to free??
-				int fd_out = open(current_cmd->outfile, current_cmd->append ? O_WRONLY | O_CREAT | O_APPEND : O_WRONLY | O_CREAT | O_TRUNC, 0644);
-				if (fd_out == -1)
-				{
-					perror("outfile");
-					as->exit_status = 1;
-					current_cmd->executable = 0;
-				}
-				else
-					close(fd_out);
+				// int fd_out = open(current_cmd->outfile, current_cmd->append ? O_WRONLY | O_CREAT | O_APPEND : O_WRONLY | O_CREAT | O_TRUNC, 0644);
+				// if (fd_out == -1)
+				// {
+				// 	perror("outfile");
+				// 	as->exit_status = 1;
+				// 	current_cmd->executable = 0;
+				// }
+				// else
+				// 	close(fd_out);
 			}
 			else if (ft_strncmp(token->value, "<", 1) == 0)
 			{
@@ -164,15 +161,15 @@ int split_cmds(t_all *as, t_token *token, t_command **cmd_list)
 					free(current_cmd->infile);
 				current_cmd->infile = ft_strdup(token->next->value);
 
-				int fd_in = open(current_cmd->infile, O_RDONLY);
-				if (fd_in == -1)
-				{
-					perror("infile");
-					as->exit_status = 1;
-					current_cmd->executable = 0;
-				}
-				else
-					close(fd_in);
+				// int fd_in = open(current_cmd->infile, O_RDONLY);
+				// if (fd_in == -1)
+				// {
+				// 	perror("infile");
+				// 	as->exit_status = 1;
+				// 	current_cmd->executable = 0;
+				// }
+				// else
+				// 	close(fd_in);
 			}
 
 			token = token->next;

@@ -31,8 +31,8 @@ void	print_export(char **sorted_env, int counter)
 	char	*key;
 	char	*value;
 
-	i = 0;
-	while (i < counter)
+	i = -1;
+	while (++i < counter)
 	{
 		if (ft_strchr(sorted_env[i], '='))
 		{
@@ -43,7 +43,7 @@ void	print_export(char **sorted_env, int counter)
 			free(key);
 		}
 		else
-			printf("declare -x %s\n", sorted_env[i++]);
+			printf("declare -x %s\n", sorted_env[i]);
 	}
 	i = 0;
 	while (sorted_env[i])
@@ -76,7 +76,7 @@ void	no_args(t_envp *env)
 	print_export(sorted_envp, env->counter);
 }
 
-int	execute_export(char **args, t_envp *env)
+int	execute_export(char **args, t_envp *env, int *status)
 {
 	int		i;
 	char	*equal_sign;
@@ -96,5 +96,6 @@ int	execute_export(char **args, t_envp *env)
 			i++;
 		}
 	}
+	*status = env->export_falg;
 	return (0);
 }

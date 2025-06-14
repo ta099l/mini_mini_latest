@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-int	execute_cd(char **args, t_envp *env)
+int	execute_cd(char **args, t_envp *env, int *status)
 {
 	char	*tar_dir;
 	char	*old_pwd;
@@ -8,7 +8,10 @@ int	execute_cd(char **args, t_envp *env)
 
 	old_pwd = getcwd(NULL, 0);
 	if (!old_pwd)
+	{
+		*status = 1;
 		return (error_mess(NULL, NULL, "cd: getcwd"));
+	}
 	tar_dir = execute_cd_utils(args, env);
 	if (!tar_dir || *tar_dir == '\0')
 	{
@@ -17,10 +20,16 @@ int	execute_cd(char **args, t_envp *env)
 		return (1);
 	}
 	if (chdir(tar_dir) != 0)
+	{
+		*status = 1;
 		return (error_mess(old_pwd, NULL, "cd"));
+	}
 	new_pwd = getcwd(NULL, 0);
 	if (!new_pwd)
+	{
+		*status = 1;
 		return (error_mess(old_pwd, NULL, "cd: getcwd"));
+	}
 	add_or_update_env(env, "OLDPWD", old_pwd);
 	add_or_update_env(env, "PWD", new_pwd);
 	return (error_mess(old_pwd, new_pwd, NULL));

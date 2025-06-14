@@ -30,6 +30,7 @@ typedef struct s_envp
 {
     char **tmp_envp;
     int counter;
+    int export_falg;
 } t_envp;
 
 typedef enum e_types
@@ -153,16 +154,16 @@ void append_command(t_command **cmd_list, t_command *new_cmd);
 // Built-ins
 int built_in(t_command *cmd_list);
 void execute_built_ins(t_command *cmd_list, t_envp *env, t_all *as);
-void execute_exit(char **args, t_all *as);
+void execute_exit(char **args, t_all *as, int *status);
 void execute_exit_utils(char **args, t_all *as, int exit_status);
 int execute_echo(char **args);
 void execute_echo_utils(char **args, int i);
 int if_n(char *str);
 int if_nflag(char *str);
-int execute_cd(char **args, t_envp *env);
+int execute_cd(char **args, t_envp *env, int *status);
 char *execute_cd_utils(char **args, t_envp *env);
 int execute_env(char **args, t_envp *env);
-int execute_export(char **args, t_envp *env);
+int execute_export(char **args, t_envp *env, int *status);
 void end_update(t_envp *env, char *entry, char **new_env);
 int execute_pwd(char **args);
 int execute_unset(char **args, t_envp *env);
