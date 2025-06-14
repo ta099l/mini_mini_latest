@@ -87,6 +87,8 @@ int	parameter_token(t_all *as, char *input, int i, t_tmptoken *tmp)
 	}
 	if (add_node(&as->token, tmp->value) == -1)
 	{
+		if (tmp->value)
+			free(tmp->value);
 		return (-1);
 	}
 	free(tmp->value);

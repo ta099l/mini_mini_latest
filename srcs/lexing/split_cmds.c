@@ -126,6 +126,8 @@ int split_cmds(t_all *as, t_token *token, t_command **cmd_list)
 			}
 			current_cmd->heredoc = 1;
 			int n = ft_strlen(token->next->value);
+			if (current_cmd->infile)
+				free(current_cmd->infile);
 			current_cmd->infile = heredoc_cmd(as, token->next->value,n,token );
 			token = token->next;
 		}

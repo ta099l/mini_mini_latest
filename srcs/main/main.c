@@ -50,8 +50,10 @@ void	start_shell(t_all *as)
 		}
 		ignore_signals();
 		if (!is_blank(input))
+		{
 			add_history(input);
-		toknize(input, as);
+			toknize(input, as);
+		}
 		free(input);
 		free_token_cmd(as);
 	}
