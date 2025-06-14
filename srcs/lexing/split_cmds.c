@@ -103,6 +103,8 @@ int split_cmds(t_all *as, t_token *token, t_command **cmd_list)
 {
 	*cmd_list = NULL; // starts with an empty command list
 	t_command *current_cmd = new_command(as);
+	int flag = 0;
+
 	if (!current_cmd)
 	{
 		free(current_cmd); // ask
@@ -145,15 +147,20 @@ int split_cmds(t_all *as, t_token *token, t_command **cmd_list)
 				if (current_cmd->outfile)
 					free(current_cmd->outfile);
 				current_cmd->outfile = ft_strdup(token->next->value); // ask how to free??
-				// int fd_out = open(current_cmd->outfile, current_cmd->append ? O_WRONLY | O_CREAT | O_APPEND : O_WRONLY | O_CREAT | O_TRUNC, 0644);
-				// if (fd_out == -1)
-				// {
-				// 	perror("outfile");
-				// 	as->exit_status = 1;
-				// 	current_cmd->executable = 0;
-				// }
-				// else
-				// 	close(fd_out);
+				if (!flag)
+				{
+
+					int fd_out = open(current_cmd->outfile, current_cmd->append ? O_WRONLY | O_CREAT | O_APPEND : O_WRONLY | O_CREAT | O_TRUNC, 0644);
+					if (fd_out == -1)
+					{
+						perror("outfile");
+						as->exit_status = 1;
+						current_cmd->executable = 0;
+						flag = 1;
+					}
+					else
+						close(fd_out);
+				}
 			}
 			else if (ft_strncmp(token->value, "<", 1) == 0)
 			{
@@ -161,15 +168,20 @@ int split_cmds(t_all *as, t_token *token, t_command **cmd_list)
 					free(current_cmd->infile);
 				current_cmd->infile = ft_strdup(token->next->value);
 
-				// int fd_in = open(current_cmd->infile, O_RDONLY);
-				// if (fd_in == -1)
-				// {
-				// 	perror("infile");
-				// 	as->exit_status = 1;
-				// 	current_cmd->executable = 0;
-				// }
-				// else
-				// 	close(fd_in);
+				if (!flag)
+				{
+
+					int fd_in = open(current_cmd->infile, O_RDONLY);
+					if (fd_in == -1)
+					{
+						perror("infile");
+						as->exit_status = 1;
+						current_cmd->executable = 0;
+						flag = 1;
+					}
+					else
+					close(fd_in);
+				}
 			}
 
 			token = token->next;

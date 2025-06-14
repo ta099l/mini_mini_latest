@@ -129,7 +129,7 @@ char *join_before_env(t_token *token, char *env_value, int start);
 int join_after_and_replace(t_token *token, char *var_value, int end, int len);
 int expand_variable(t_token *token, char *env_value, int start, int end);
 int extract_variable(t_all *as, char *value, int *i, char **var);
-int handle_exit_status(t_all *as, t_token *token);
+int handle_exit_status(t_all *as, t_token *token, int *i);
 int handle_special_dollar(t_all *as, t_token *token, int *i);
 int process_token_heredoc(t_all *as, t_token *token, t_envp *cp_envp);
 

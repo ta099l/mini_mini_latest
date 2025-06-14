@@ -6,25 +6,29 @@
 /*   By: tabuayya <tabuayya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:15:12 by kabu-zee          #+#    #+#             */
-/*   Updated: 2025/06/14 14:24:39 by tabuayya         ###   ########.fr       */
+/*   Updated: 2025/06/14 18:10:02 by tabuayya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	handle_exit_status(t_all *as, t_token *token)
+int handle_exit_status(t_all *as, t_token *token, int *i)
 {
-	char	*status_str;
-
-	if (!token || !token->value)
-		return (0);
-	free(token->value);
-	status_str = ft_itoa(as->exit_status);
-	if (!status_str)
-		exit_program(as, "Memory allocation failed", 1);
-	token->value = status_str;
-	return (1);
+    if (token->value[*i] == '?')
+    {
+		(*i)++;
+        char *env_value = ft_itoa(as->exit_status);
+        int start = *i - 1;
+    
+        int end = *i;
+       
+        if (expand_variable(token, env_value, start, end) == -1)
+            return (-1);
+		free (env_value);
+    }
+    return (1);
 }
+
 
 int	extract_variable(t_all *as, char *value, int *i, char **var)
 {

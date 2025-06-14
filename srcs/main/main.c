@@ -6,7 +6,7 @@
 /*   By: tabuayya <tabuayya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 17:54:43 by kabu-zee          #+#    #+#             */
-/*   Updated: 2025/06/14 13:13:51 by tabuayya         ###   ########.fr       */
+/*   Updated: 2025/06/14 18:27:10 by tabuayya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,10 @@ void	start_shell(t_all *as)
 		}
 		ignore_signals();
 		if (!is_blank(input))
+		{
 			add_history(input);
-		toknize(input, as);
+			toknize(input, as);
+		}
 		free(input);
 		free_token_cmd(as);
 	}

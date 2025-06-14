@@ -34,7 +34,6 @@ void	exit_forkk(t_all *as, char *str, int n)
 	clean(as);
 	if (str)
 		write(1, str, ft_strlen(str));
-	write(1, "\n", 1);
 	exit(n);
 }
 

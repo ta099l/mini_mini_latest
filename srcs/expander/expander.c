@@ -6,7 +6,7 @@
 /*   By: tabuayya <tabuayya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:14:51 by kabu-zee          #+#    #+#             */
-/*   Updated: 2025/06/14 14:24:24 by tabuayya         ###   ########.fr       */
+/*   Updated: 2025/06/14 18:17:09 by tabuayya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int expand_variable(t_token *token, char *env_value, int start, int end)
 	int end;
 
 	if (token->value[*i] == '?')
-		return (handle_exit_status(as, token));
+		return (handle_exit_status(as, token, i));
 	if (token->value[*i] == '0')
 	{
 		(*i)++;
@@ -46,6 +46,7 @@ int expand_variable(t_token *token, char *env_value, int start, int end)
 		end = *i;
 		if (expand_variable(token, env_value, start, end) == -1)
 			return (-1);
+		free(env_value);	
 		return (1);
 	}
 	return (0);

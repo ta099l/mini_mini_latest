@@ -6,7 +6,7 @@
 /*   By: tabuayya <tabuayya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 17:15:12 by kabu-zee          #+#    #+#             */
-/*   Updated: 2025/06/14 13:18:25 by tabuayya         ###   ########.fr       */
+/*   Updated: 2025/06/14 18:10:59 by tabuayya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,7 @@ int is_quoted(t_token *token)
 		token->quotes = 0;
 		if (token->value && token->type == WORD)
 		{
-			int len = ft_strlen(token->value);
-			if (len < 2)
-				return 0;
+			
 			if (ft_strchr(token->value, '\'') || ft_strchr(token->value, '"'))
 			{
 				token->quotes = 1;
