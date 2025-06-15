@@ -4,6 +4,7 @@ int	toknize(char *input, t_all *as)
 {
 	int	i;
 
+	as->error_flag = 0;
 	i = split_input(as, input, &as->token, as->tmp);
 	if (i == -1)
 		return (free_exit_status(as), 1);
@@ -12,7 +13,8 @@ int	toknize(char *input, t_all *as)
 		exit_program(as, "malloc failed", 1);
 	remove_quotes(as->token);
 	split_cmds(as, as->token, &as->cmd);
-	execute_commands(as, as->cmd, as->cp_envp);
+	if (!as->error_flag)
+		execute_commands(as, as->cmd, as->cp_envp);
 	return (0);
 }
 

@@ -74,8 +74,9 @@ typedef struct s_all
 	struct s_tmptoken	*tmp;
 	struct s_command	*cmd;
 	struct s_envp		*cp_envp;
-	pid_t				*child_pids;
-	int					exit_status;
+	pid_t			*child_pids;
+	int			exit_status;
+	int			error_flag;
 }						t_all;
 
 typedef struct s_exec_ctx

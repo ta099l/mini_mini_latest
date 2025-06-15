@@ -26,12 +26,17 @@ void	exit_fork(t_all *as, char *str, int n)
 	as->exit_status = n;
 	clean(as);
 	if (str)
-		write(1, str, ft_strlen(str));
+	{
+		write(2, str, ft_strlen(str));
+		write(2,"\n",1);
+	}
 	exit(n);
 }
 
 void	free_exit_status(t_all *as)
 {
-	free_token_cmd(as);
-	write(2, "Syntax_error\n", 13);
+	if (!as->error_flag)
+		write(2, "Syntax_error\n", 13);
+	as->error_flag = 1;
+	// free_token_cmd(as);
 }

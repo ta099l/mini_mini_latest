@@ -43,7 +43,7 @@ t_command	*new_command(t_all *as)
 
 	cmd = malloc(sizeof(t_command));
 	if (!cmd)
-		exit_program(as, "Memory allocation failed", 1);
+		exit_program(as, "MemoryDDD allocation failed", 1);
 	cmd->args = NULL;
 	cmd->infile = NULL;
 	cmd->outfile = NULL;
@@ -161,7 +161,10 @@ static int	handle_heredoc_token(t_all *as, t_command *current_cmd,
 		t_token **token)
 {
 	if (!(*token)->next || (*token)->next->type != WORD)
-		exit_program(as, "Memory allocation failed", 1);
+	{
+		free_exit_status(as);
+		return(1);
+	}
 	current_cmd->heredoc = 1;
 	if(current_cmd->infile )
 	  free(current_cmd->infile );
@@ -194,6 +197,7 @@ int	split_cmds(t_all *as, t_token *token, t_command **cmd_list)
 	if (!current_cmd)
 	{
 		free(current_cmd);
+
 		exit_program(as, "Memory allocation failed", 1);
 	}
 	while (token)
