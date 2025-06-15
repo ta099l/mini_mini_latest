@@ -1,14 +1,17 @@
 #include "../includes/minishell.h"
 
 // Helper for exec logic
-static void	exec_command(t_all *as, t_command *cmd, t_envp *env)
+static void	exec_command(t_all *as, t_command *cmd, t_envp *env, int flag)
 {
 	char	*path;
 
 	if (!cmd->args)
 		exit_fork(as, NULL, 0);
 	if (ft_strchr(cmd->args[0], '/'))
+	{
 		path = cmd->args[0];
+		flag = 1;
+	}
 	else
 		path = find_path(env, cmd->args[0]);
 	if (!path)
@@ -20,11 +23,17 @@ static void	exec_command(t_all *as, t_command *cmd, t_envp *env)
 		cmd->args[0] = ft_strdup(path);
 	}
 	execve(path, cmd->args, env->tmp_envp);
-	exit_fork(as, "execve", 1);
+	perror("execve");
+	if (!flag)
+		free(path);
+	exit_fork(as, NULL, 126);
 }
 
 void	child_process_logic_ctx(t_child_ctx *ctx)
 {
+	int	flag;
+
+	flag = 0;
 	redirect_io(ctx->as, ctx->cmd, ctx->prev_fd, ctx->fd);
 	if (ctx->prev_fd != -1)
 		close(ctx->prev_fd);
@@ -39,7 +48,7 @@ void	child_process_logic_ctx(t_child_ctx *ctx)
 		exit_fork(ctx->as, NULL, 0);
 	}
 	else
-		exec_command(ctx->as, ctx->cmd, ctx->env);
+		exec_command(ctx->as, ctx->cmd, ctx->env, flag);
 }
 
 void	parent_process_cleanup(t_command *cmd, int *prev_fd, int fd[2])

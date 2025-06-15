@@ -211,6 +211,11 @@ int	split_cmds(t_all *as, t_token *token, t_command **cmd_list)
 		else if (token->type == PIPE)
 		{
 			append_command(cmd_list, current_cmd);
+			if (!token->next || token->next->type != WORD)
+			{
+				free_exit_status(as);
+				return(1);
+			}
 			current_cmd = new_command(as);
 			if (!current_cmd)
 				exit_program(as, "Memory allocation failed", 1);

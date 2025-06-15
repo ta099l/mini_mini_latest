@@ -38,5 +38,4 @@ void	free_exit_status(t_all *as)
 	if (!as->error_flag)
 		write(2, "Syntax_error\n", 13);
 	as->error_flag = 1;
-	// free_token_cmd(as);
 }
