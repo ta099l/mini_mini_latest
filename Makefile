@@ -8,6 +8,7 @@ SRCS = \
 	srcs/clean/free_utils.c \
 	srcs/lexing/qoutes.c \
 	srcs/lexing/splits_utils.c \
+	srcs/lexing/split_cmds2.c \
 	srcs/expander/envp.c \
 	srcs/expander/expander.c \
 	srcs/expander/expander_utils.c \

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   excution_utils_2.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kabu-zee <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/15 16:57:59 by kabu-zee          #+#    #+#             */
+/*   Updated: 2025/06/15 16:58:02 by kabu-zee         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 static int	count_commands(t_command *cmd_list)
@@ -60,5 +72,3 @@ void	execute_commands(t_all *as, t_command *cmd_list, t_envp *env)
 	loop_commands(cmd_list, &ctx);
 	wait_for_children(as, num_forked_children);
 }
-
-

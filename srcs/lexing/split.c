@@ -94,3 +94,11 @@ int	str(t_all *as, char *input, int i, t_tmptoken *tmp)
 	tmp->value = NULL;
 	return (end - 1);
 }
+
+int	handle_word_token(t_all *as, t_command *current_cmd, t_token *token)
+{
+	current_cmd->args = add_arg(as, current_cmd->args, token->value);
+	if (!current_cmd->args)
+		exit_program(as, "Memory allocation failed", 1);
+	return (0);
+}

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   excution.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kabu-zee <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/15 16:57:36 by kabu-zee          #+#    #+#             */
+/*   Updated: 2025/06/15 16:57:37 by kabu-zee         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 // Helper for input redirection
@@ -58,6 +70,3 @@ void	redirect_io(t_all *as, t_command *cmd, int prev_fd, int fd[2])
 	handle_input_redirection(as, cmd, prev_fd, fd);
 	handle_output_redirection(as, cmd, fd);
 }
-
-
-

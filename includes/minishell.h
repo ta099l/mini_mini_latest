@@ -1,13 +1,13 @@
 /* ************************************************************************** */
-/* */
-/* :::      ::::::::   */
-/* minishell.h                                        :+:      :+:    :+:   */
-/* +:+ +:+         +:+     */
-/* By: combined <marvin@42.fr>                     +#+  +:+       +#+        */
-/* +#+#+#+#+#+   +#+           */
-/* Created: 2025/06/13 by combined           #+#    #+#             */
-/* Updated: 2025/06/13 by combined           ###   ########.fr       */
-/* */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mini.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kabu-zee <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/07 12:48:59 by kabu-zee          #+#    #+#             */
+/*   Updated: 2025/02/07 12:49:07 by kabu-zee         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
@@ -74,9 +74,9 @@ typedef struct s_all
 	struct s_tmptoken	*tmp;
 	struct s_command	*cmd;
 	struct s_envp		*cp_envp;
-	pid_t			*child_pids;
-	int			exit_status;
-	int			error_flag;
+	pid_t				*child_pids;
+	int					exit_status;
+	int					error_flag;
 }						t_all;
 
 typedef struct s_exec_ctx
@@ -168,13 +168,23 @@ char					*get_full_path(char *dir, char *cmd);
 void					execute_commands(t_all *as, t_command *cmd_list,
 							t_envp *env);
 void					wait_for_children(t_all *as, int num_children);
-void					handle_builtin_parent(t_command *cmd_list,
-							t_exec_ctx *ctx);
 void					handle_fork_and_exec(t_command *cmd_list,
 							t_exec_ctx *ctx);
 void					append_command(t_command **cmd_list,
 							t_command *new_cmd);
+int						handle_outfile(t_all *as, t_command *current_cmd,
+							t_token *token, int *flag);
 
+int						handle_infile(t_all *as, t_command *current_cmd,
+							t_token *token, int *flag);
+int						handle_word_token(t_all *as, t_command *current_cmd,
+							t_token *token);
+int						handle_heredoc_token(t_all *as, t_command *current_cmd,
+							t_token **token);
+int						handle_redir_token(t_all *as, t_command *current_cmd,
+							t_token **token, int *flag);
+void					handle_builtin_parent(t_command *cmd_list,
+							t_exec_ctx *ctx);
 // Built-ins
 int						built_in(t_command *cmd_list);
 void					execute_built_ins(t_command *cmd_list, t_envp *env,
@@ -217,7 +227,7 @@ void					free_exit_status(t_all *as);
 // Execution Helpers
 char					**add_arg(t_all *as, char **args, char *value);
 char					*cur_dir(t_all *as);
-char                                    *heredoc_cmd(t_all *as, char *del, t_token *token);
+char					*heredoc_cmd(t_all *as, char *del, t_token *token);
 int						prepare_pipe_and_fork(t_all *as, int fd[2],
 							int has_next);
 void					redirect_io(t_all *as, t_command *cmd, int prev_fd,
@@ -225,7 +235,7 @@ void					redirect_io(t_all *as, t_command *cmd, int prev_fd,
 void					child_process_logic_ctx(t_child_ctx *ctx);
 void					parent_process_cleanup(t_command *cmd, int *prev_fd,
 							int fd[2]);
-char	                                *get_rand(void);					
+char					*get_rand(void);
 
 // Signals
 void					sig_handler_prompt(int signum);

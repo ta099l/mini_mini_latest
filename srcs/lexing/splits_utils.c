@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   splits_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kabu-zee <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/15 16:59:11 by kabu-zee          #+#    #+#             */
+/*   Updated: 2025/06/15 16:59:13 by kabu-zee         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 int	toknize(char *input, t_all *as)
@@ -9,7 +21,7 @@ int	toknize(char *input, t_all *as)
 	if (i == -1)
 		return (free_exit_status(as), 1);
 	i = expand_var(as, as->token, as->cp_envp, 0);
-	if(i == -1)
+	if (i == -1)
 		exit_program(as, "malloc failed", 1);
 	remove_quotes(as->token);
 	split_cmds(as, as->token, &as->cmd);
@@ -41,8 +53,8 @@ void	token_types(t_token *token)
 int	parameter_token(t_all *as, char *input, int i, t_tmptoken *tmp)
 {
 	tmp->start = i;
-	if (input[i] && input[i + 1] && input[i] == input[i + 1]
-		&& input[i + 1] != '|')
+	if (input[i] && input[i + 1] && input[i] == input[i + 1] && input[i
+			+ 1] != '|')
 		i++;
 	tmp->end = i;
 	tmp->value = ft_substr(input, tmp->start, (tmp->end - tmp->start + 1));

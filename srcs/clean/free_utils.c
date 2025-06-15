@@ -95,8 +95,8 @@ void	free_files(t_command *cmd)
 {
 	if (cmd->infile)
 	{
-	        if (cmd->heredoc)      
-		  unlink(cmd->infile);
+		if (cmd->heredoc)
+			unlink(cmd->infile);
 		free(cmd->infile);
 		cmd->infile = NULL;
 	}
