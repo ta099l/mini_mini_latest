@@ -211,7 +211,9 @@ int	split_cmds(t_all *as, t_token *token, t_command **cmd_list)
 		else if (token->type == PIPE)
 		{
 			append_command(cmd_list, current_cmd);
-			if (!token->next || token->next->type != WORD)
+			if (!token->next || (token->next->type != WORD
+					&& token->next->type != REDIR
+					&& token->next->type != HEREDOC))
 			{
 				free_exit_status(as);
 				return(1);
