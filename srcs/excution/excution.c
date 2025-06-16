@@ -6,33 +6,19 @@
 /*   By: tabuayya <tabuayya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 16:57:36 by kabu-zee          #+#    #+#             */
-/*   Updated: 2025/06/16 12:38:05 by tabuayya         ###   ########.fr       */
+/*   Updated: 2025/06/16 12:44:47 by tabuayya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 // Helper for input redirection
-static void	handle_input_redirection(t_all *as, t_command *cmd, int prev_fd,
+
+static void	handle_heredoc_and_pipe(t_all *as, t_command *cmd, int prev_fd,
 		int fd[2])
 {
 	int	fd_heredoc;
-	int	fd_in;
 
-	if (cmd->infile)
-	{
-		fd_in = open(cmd->infile, O_RDONLY);
-		if (fd_in == -1)
-		{
-			if (fd[0] >= 0)
-				close(fd[0]);
-			if (fd[1] >= 0)
-				close(fd[1]);
-			exit_fork(as, "infile: No such file or directory", 1);
-		}
-		dup2(fd_in, STDIN_FILENO);
-		close(fd_in);
-	}
 	if (cmd->heredoc)
 	{
 		fd_heredoc = open(cmd->infile, O_RDONLY);
@@ -52,6 +38,28 @@ static void	handle_input_redirection(t_all *as, t_command *cmd, int prev_fd,
 		dup2(prev_fd, STDIN_FILENO);
 		close(prev_fd);
 	}
+}
+
+static void	handle_input_redirection(t_all *as, t_command *cmd, int prev_fd,
+		int fd[2])
+{
+	int	fd_in;
+
+	if (cmd->infile)
+	{
+		fd_in = open(cmd->infile, O_RDONLY);
+		if (fd_in == -1)
+		{
+			if (fd[0] >= 0)
+				close(fd[0]);
+			if (fd[1] >= 0)
+				close(fd[1]);
+			exit_fork(as, "infile: No such file or directory", 1);
+		}
+		dup2(fd_in, STDIN_FILENO);
+		close(fd_in);
+	}
+	handle_heredoc_and_pipe(as, cmd, prev_fd, fd);
 }
 
 // Helper for output redirection
