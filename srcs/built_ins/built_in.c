@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kabu-zee <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tabuayya <tabuayya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 16:55:38 by kabu-zee          #+#    #+#             */
-/*   Updated: 2025/06/15 16:55:40 by kabu-zee         ###   ########.fr       */
+/*   Updated: 2025/06/16 09:34:29 by tabuayya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	execute_exit_utils(char **args, t_all *as, int exit_status)
 	i = 0;
 	while (args[1][i])
 	{
-		if (!ft_isdigit(args[1][i]) && args[1][i] != '-')
+		if (!ft_isdigit(args[1][i]) && args[1][i] != '-' && args[1][i] != '+')
 		{
 			ft_putstr_fd("exit: numeric argument required\n", 2);
 			clean(as);
