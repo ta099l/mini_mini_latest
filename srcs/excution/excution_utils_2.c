@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   excution_utils_2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kabu-zee <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tabuayya <tabuayya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/15 16:57:59 by kabu-zee          #+#    #+#             */
-/*   Updated: 2025/06/15 16:58:02 by kabu-zee         ###   ########.fr       */
+/*   Updated: 2025/06/16 10:01:50 by tabuayya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	execute_commands(t_all *as, t_command *cmd_list, t_envp *env)
 	t_exec_ctx	ctx;
 
 	prev_fd = -1;
+	fd[0] = -1;
+	fd[1] = -1;
 	as->child_pids = malloc(8 * sizeof(pid_t));
 	if (!as->child_pids)
 		exit_program(as, "malloc failed", 1);
